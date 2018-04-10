@@ -5,18 +5,22 @@
     state: started
     
 - name: copying resource directory to target server /tmp location
-  copy: src=static_files/resources/*  dest=/tmp/resources/ follow=true mode=0777
+  copy: src=static_files/resources/  dest=/tmp/resources/ follow=true mode=0777
+- name: install python-pip
+  shell: zypper -n install python-pip
+- name: install ansible docker module using python pip
+  shell: yes | pip install docker-py
 
 - name: build the image
   docker_image: 
     name: nginix-latest
     tag: devops
     path: /tmp/resources
-    state: present
-
-- name: run the site in a docker container
-  docker:
-    name: website
-    image: "nginix-latest:devops"
-    state: reloaded
-    publish_all_ports: yes
+- name: running conatiner
+  docker_container:
+    name: nginix-conatiner
+    image: nginix-latest:devops
+    state: started
+    recreate: yes
+    exposed_ports:
+      - 80
