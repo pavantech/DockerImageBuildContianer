@@ -3,6 +3,9 @@
   service:
     name: docker
     state: started
+    
+- name: copying resource directory to target server /tmp location
+  copy: src=static_files/resources/*  dest=/tmp/resources/ follow=true mode=0777
 
 - name: build the image
   docker_image: 
