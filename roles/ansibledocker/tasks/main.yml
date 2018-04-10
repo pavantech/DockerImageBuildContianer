@@ -1,0 +1,19 @@
+---
+- name: start docker service
+  service:
+    name: docker
+    state: started
+
+- name: build the image
+  docker_image: 
+    name: nginix-latest
+    tag: devops
+    path: /tmp/resources
+    state: present
+
+- name: run the site in a docker container
+  docker:
+    name: website
+    image: "nginix-latest:devops"
+    state: reloaded
+    publish_all_ports: yes
