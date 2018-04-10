@@ -13,13 +13,13 @@
 
 - name: build the image
   docker_image: 
-    name: nginix-latest
+    name: apache2-latest
     tag: devops
     path: /tmp/resources
 - name: running conatiner
   docker_container:
-    name: nginix-conatiner
-    image: nginix-latest:devops
+    name: apache2-conatiner
+    image: apache2-latest:devops
     state: started
     recreate: yes
     exposed_ports:
